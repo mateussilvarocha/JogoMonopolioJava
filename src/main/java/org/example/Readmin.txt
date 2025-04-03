@@ -1,10 +1,11 @@
 //valores de Objetos:
-//JogoModel-personagensDoPlayer
 
-//Player| >Negocio|> Item|
-//      |         |      |-nome, quandidade, valorVenda, valorCompra
-//      |         |- nome, saldo, estoqueItem
-//      |-nome, saldo, compainhaNegocios
+JogoModel-personagensDoPlayer
+
+Player| >Negocio|> Item|
+      |         |      |-nome, quandidade, valorVenda, valorCompra
+      |         |- nome, saldo, estoqueItem
+      |-nome, saldo, compainhaNegocios
 
 
 
@@ -12,6 +13,8 @@ instancias necessarias()
     jogoController = new JogoController();
     player = jogoController.getPlayer();
 
+telaMenu()
+    //abstrai o Usuario
     player.newGame("Joao");
 
 
