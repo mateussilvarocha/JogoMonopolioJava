@@ -1,0 +1,30 @@
+//valores de Objetos:
+//JogoModel-personagensDoPlayer
+
+//Player| >Negocio|> Item|
+//      |         |      |-nome, quandidade, valorVenda, valorCompra
+//      |         |- nome, saldo, estoqueItem
+//      |-nome, saldo, compainhaNegocios
+
+
+
+instancias necessarias()
+    jogoController = new JogoController();
+    player = jogoController.getPlayer();
+
+    player.newGame("Joao");
+
+
+iniciarJogo()
+        // Criando e manipulando o mundo do jogo
+        criarItemEmNegocio
+        removerItem
+
+
+Controle de personagem()
+    //açoes do jogador
+    fundarNegocio
+    comprarItem
+    listarItens
+
+
