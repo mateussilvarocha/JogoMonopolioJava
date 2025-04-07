@@ -14,6 +14,7 @@ public class Main {
         GameEventManager.getInstancia().triggerEvent("NOVO_PERSONAGEM", "Joao");
 
     }
+
     public static void iniciarJogo(){
 
         // Criando e manipulando o jogo
