@@ -1,6 +1,5 @@
 package org.example.Model;
 
-import org.example.Model.ManageNegocio.FactoryItem;
 import org.example.Model.ManageNegocio.FactoryNegocio;
 import org.example.Model.ManageNegocio.NegocioTemplate;
 
@@ -35,6 +34,14 @@ public class Personagem {
         return negocios.size();
     }
 
+    public void saqueSaldo(float valor){
+        saldo -= valor;
+    }
+    public void depositoSaldo(float valor){
+        saldo += valor;
+    }
+
+    public float getSaldo(){return saldo;}
     public String getNome() {
         return nome;
     }

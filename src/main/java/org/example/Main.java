@@ -2,54 +2,144 @@ package org.example;
 
 import org.example.Controller.JogoController;
 import org.example.Controller.Player;
+import org.example.Model.GameEventManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Main {
-    static JogoController jogoController = new JogoController();
-    static Player player = jogoController.getPlayer();
 
     public static void telaMenu(){
-        player.newGame("Joao");
+        GameEventManager.getInstancia().triggerEvent("NOVO_PERSONAGEM", "Joao");
+
     }
     public static void iniciarJogo(){
 
         // Criando e manipulando o jogo
         // Adicionando itens aos negócios
-        jogoController.criarItemEmNegocio("Joao", "Mercearia", "Arroz", 10.0f);
-        jogoController.criarItemEmNegocio("Joao", "Mercearia", "Pão", 5.0f);
-        jogoController.criarItemEmNegocio("Joao", "Mercearia", "Bolo", 15.0f);
+        //iste metodo não é preciso mais a penas se o dev quiser adicionar mais itens de forma rapida
 
-        // Removendo um item
-        jogoController.removerItem("Joao", "Padaria", "Bolo");
+        //java não tem  preenchido inline
+        //blocos anônimos ou métodos utilitários
+//        Map<String, Object> dadosItem = new HashMap<>(){{
+//            put("negocio", "Mercearia");
+//            put("item", "Arroz");
+//            put("preco", 10.0f);
+//        }};
+//
+//        GameEventManager.getInstancia().triggerEvent("CRIAR_ITEM", dadosItem);
+        //Blocos unitarios
+//        public static Map<String, Object> criarDadosItem(String negocio, String item, float preco) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("negocio", negocio);
+//            map.put("item", item);
+//            map.put("preco", preco);
+//            return map;
+//        }
+//        GameEventManager.getInstancia().triggerEvent(
+//                "CRIAR_ITEM",
+//                criarDadosItem("Mercearia", "Arroz", 10.0f)
+//        );
+
+        GameEventManager.getInstancia().triggerEvent(
+                "CRIAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz",
+                        "preco", 10.0f
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "CRIAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Bolo",
+                        "preco", 15.0f
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "CRIAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Pão",
+                        "preco", 5.0f
+                )
+        );
+        // Removendo um ite
+        JogoController.getInstancia().removerItem("Padaria", "Bolo");
 
     }
     public static void simulandoManipulacaoUsuario(){
-        //usuario abriu o jogo
-        iniciarJogo();
         //Usuario abre o MenuIniciar e cria o personagem
         telaMenu();
 
         //Controlando o personagem
 
         // Criando negócios para o personagem
-        jogoController.fundarNegocio("Joao", "Mercearia", "Comercio");
-        jogoController.fundarNegocio("Joao", "Padaria", "Comercio");
-
+        JogoController.getInstancia().fundarNegocio("Mercearia", "Comercio");
+        JogoController.getInstancia().fundarNegocio( "Padaria", "Comercio");
+        JogoController.getInstancia().listarItens("Mercearia");
         // Comprando um item
-        jogoController.comprarItem("Joao", "Mercearia", "Arroz");
-        jogoController.comprarItem("Joao", "Mercearia", "Arroz");
-        jogoController.comprarItem("Joao", "Mercearia", "Arroz");
-        jogoController.comprarItem("Joao", "Mercearia", "Arroz");
+        GameEventManager.getInstancia().triggerEvent(
+                "COMPRAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz"
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "COMPRAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz"
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "COMPRAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz"
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "COMPRAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz"
+                )
+        );
+        GameEventManager.getInstancia().triggerEvent(
+                "COMPRAR_ITEM",
+                Map.of(
+                        "negocio", "Mercearia",
+                        "item", "Arroz"
+                )
+        );
 
-        jogoController.listarItens("Joao", "Mercearia");
+        GameEventManager.getInstancia().addListener("RETORNO_SALDO_PERSONAGEM", data -> {
+            System.out.println(data);
+        });
+        GameEventManager.getInstancia().triggerEvent("GET_SALDO_PERSONAGEM", null);
 
-        // Listando os itens de um negócio
-        jogoController.listarItens("Joao", "Padaria");
+        GameEventManager.getInstancia().addListener("RETORNO_SALDO_NEGOCIO", data->{
+            //RETORNA O OBJETO NEGOCIO:
+                System.out.println(data);
+        });
+        GameEventManager.getInstancia().triggerEvent("GET_SALDO_NEGOCIO", "Mercearia");
 
-        // Listando os itens após remoção
-        jogoController.listarItens("Joao", "Padaria");
+        GameEventManager.getInstancia().addListener("RETORNO_ESTOQUE_NEGOCIO", data->{
+            //RETORNA O OBJETO NEGOCIO:
+            System.out.println("ESTE É O ESTOQUE");
+            System.out.println(data);
+        });
+        GameEventManager.getInstancia().triggerEvent("GET_ESTOQUE_NEGOCIO", "Mercearia");
+
     }
     public static void main(String[] args) {
+        JogoController.getInstancia(); // Garantir carregamento
+        Player.getInstancia();         // Agora seguro usar
+
         simulandoManipulacaoUsuario();
 
     }

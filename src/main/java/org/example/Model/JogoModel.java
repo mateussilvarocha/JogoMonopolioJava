@@ -7,28 +7,41 @@ import java.util.HashMap;
 
 public class JogoModel {
 
+    protected Personagem personagemAtual;
+
     private HashMap<String, Personagem> personagens = new HashMap<>();
     // Recupera um personagem pelo nome
     public Personagem getPersonagem(String nome) {
         return personagens.get(nome);
     }
 
+    public void iniciarJogador(Personagem personagem){
+        personagemAtual = personagem;
+    }
     // Cria um novo personagem
-    public void criarPersonagem(String nome) {
+    public Personagem criarPersonagem(String nome) {
         if (!personagens.containsKey(nome)) {
             Personagem personagem = new Personagem(nome);
             personagens.put(nome, personagem);
             System.out.println("Personagem " + nome + " criado.");
+            return personagem;
         } else {
             System.out.println("Personagem " + nome + " já existe.");
+            return null;
         }
+
     }
 
     // Adiciona um item ao estoque de um negócio
-    public void criarItemEmNegocio(String nomePersonagem, String nomeNegocio, String nomeItem, float valorCompra) {
-        Personagem personagem = getPersonagem(nomePersonagem);
-        if (personagem != null) {
-            NegocioTemplate negocio = personagem.getNegocios().get(nomeNegocio);
+    // esta classe será determinada pela propria classe Negocio
+    // seguirei adicionando o estoque em uma persistencia para quando houver mudança pelo desenvolvedor
+    //vou ter que primeiro persistir as classe e lincalas ao mediador
+    //direcionarei este metodo direto ao estoque do tipo de negocio correspondente globalmente
+
+    public void criarItemEmNegocio(String nomeNegocio, String nomeItem, float valorCompra) {
+
+        if (personagemAtual != null) {
+            NegocioTemplate negocio = personagemAtual.getNegocios().get(nomeNegocio);
             if (negocio != null) {
                 negocio.addItem(nomeItem, valorCompra);
                 System.out.println("Item " + nomeItem + " adicionado ao negócio " + nomeNegocio + ".");
@@ -36,14 +49,13 @@ public class JogoModel {
                 System.out.println("Negócio " + nomeNegocio + " não encontrado.");
             }
         } else {
-            System.out.println("Personagem " + nomePersonagem + " não encontrado.");
+            System.out.println("Personagem  não instanciado.");
         }
     }
     // Remover um item do estoque de um negócio
-    public void removerItem(String nomePersonagem, String nomeNegocio, String nomeItem) {
-        Personagem personagem = getPersonagem(nomePersonagem);
-        if (personagem != null) {
-            NegocioTemplate negocio = personagem.getNegocios().get(nomeNegocio);
+    public void removerItem(String nomeNegocio, String nomeItem) {
+        if (personagemAtual != null) {
+            NegocioTemplate negocio = personagemAtual.getNegocios().get(nomeNegocio);
             if (negocio != null) {
                 if (negocio.getEstoque().containsKey(nomeItem)) {
                     negocio.getEstoque().remove(nomeItem);
@@ -55,27 +67,24 @@ public class JogoModel {
                 System.out.println("Negócio " + nomeNegocio + " não encontrado.");
             }
         } else {
-            System.out.println("Personagem " + nomePersonagem + " não encontrado.");
+            System.out.println("Personagem  não instanciado.");
         }
     }
     // Listar os itens de um negócio
-    public void listarItens(String nomePersonagem, String nomeNegocio) {
-        Personagem personagem = getPersonagem(nomePersonagem);
-        if (personagem != null) {
-            NegocioTemplate negocio = personagem.getNegocios().get(nomeNegocio);
+    public void listarItens(String nomeNegocio) {
+        if (personagemAtual != null) {
+            NegocioTemplate negocio = personagemAtual.getNegocios().get(nomeNegocio);
             if (negocio != null) {
                 System.out.println("Itens no negócio " + nomeNegocio + ":");
                 for (String itemNome : negocio.getEstoque().keySet()) {
                     Item item = negocio.getEstoque().get(itemNome); // Obtendo o item pelo nome
                     System.out.println("- " + itemNome + " | Quantidade: " + item.getQuantidade() + " | Valor de Compra: " + item.getValorCompra() + " | Valor de Venda: " + item.getValorVenda());
                 }
-
-
             } else {
                 System.out.println("Negócio " + nomeNegocio + " não encontrado.");
             }
         } else {
-            System.out.println("Personagem " + nomePersonagem + " não encontrado.");
+            System.out.println("Personagem  não instanciado.");
         }
     }
 

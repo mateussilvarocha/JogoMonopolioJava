@@ -2,7 +2,7 @@ package org.example.Model.ManageNegocio;
 
 public class  Item {
     private String nome;
-    private int quantidade = 1;
+    private int quantidade = 0;
     private float valorVenda;
     private float valorCompra;
 
@@ -12,6 +12,9 @@ public class  Item {
 
     public void addItem(){
         quantidade++;
+    }
+    public void putItem(){
+        quantidade--;
     }
 
     public final void setValorVenda(float valor){valorVenda = valor;}

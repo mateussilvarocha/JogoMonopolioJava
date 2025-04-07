@@ -6,7 +6,7 @@ public class UI_Terminal {
     private static UI_Terminal instancia;
     private boolean constancia = true;
 
-    public UI_Terminal(){
+    private UI_Terminal(){
 
     }
     public static UI_Terminal getInstance(){

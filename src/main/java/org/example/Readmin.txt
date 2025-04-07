@@ -1,4 +1,19 @@
-//valores de Objetos:
+
+Comunicação de Componentes em POE:
+
+-JogoController/Model
+-Player
+-UI_Terminal
+
+Comunicação de Componentes em Mediator:
+
+-Negocios
+-Item
+-Personagem
+
+
+
+/valores de Objetos:
 
 JogoModel-personagensDoPlayer
 
